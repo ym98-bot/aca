@@ -1,0 +1,74 @@
+[site]
+title = "Yumin Liu"
+description = "Personal website of Your Name"
+url = "https://your-website.com"
+favicon = "/icon.png"
+last_updated = "Augest 10, 2026"
+
+[author]
+name = "Yumin Liu"
+title = "PhD Candidate"
+institution = "University of Hong Kong"
+avatar = "/bio.jpg"
+
+[social]
+# Contact information (leave blank or delete to hide)
+
+email = "liuyumin98@gmail.com"
+location = "Pokfulam, Hong Kong"
+location_url = "google.com.hk/maps/place/Run+Run+Shaw+Tower,+Lung+Fu+Shan/@22.2835987,114.133528,18z/data=!3m1!4b1!4m13!1m7!3m6!1s0x3403ff84fc32217b:0x41676059341429fb!2zUnVuIFJ1biBTaGF3IFRvd2VyIOmAuOWkq-aVmeWtuOaokywgTHVuZyBGdSBTaGFu!3b1!8m2!3d22.2840024!4d114.1345997!3m4!1s0x3403ff851cabb253:0x53f7619e019210e9!8m2!3d22.2836139!4d114.1344011?shorturl=1"
+location_details = [
+  "Department of Philosophy, Run Run Shaw Tower, Centennial Campus",
+  "University of Hong Kong, Pokfulam Road, Hong Kong"
+]
+# google_scholar = "https://scholar.google.com"
+orcid = "https://orcid.org/0009-0007-5346-7463"
+philpeople = "https://philpeople.org/profiles/yumin-liu"
+linkedin = "https://www.linkedin.com/in/yuminliu98/"
+
+[features]
+# Show a like button on the about page
+enable_likes = true
+
+# Display all subpages on a single page
+enable_one_page_mode = false
+
+[i18n]
+enabled = false
+locales = ["zh", "en"]
+default_locale = "en"
+# "auto" means the locale will be determined by the browser's language setting, "fixed" means the locale will be fixed to the default locale (but can be switched still, if you want to disable, set "enable=false")
+mode = "auto"
+fixed_locale = "en"
+# If true, PRISM will remember user's language preference in browser's localStorage
+persist = true
+# Show a language switcher on the top right corner
+switcher = true
+
+[i18n.labels]
+zh = "中文"
+en = "English"
+
+[[navigation]]
+title = "About"
+type = "page"
+target = "about"
+href = "/"
+
+[[navigation]]
+title = "Research"
+type = "page"
+target = "research"
+href = "/research"
+
+# [[navigation]]
+# title = "Teaching"
+# type = "page"
+# target = "teaching"
+# href = "/teaching"
+
+[[navigation]]
+title = "CV"
+type = "page"
+target = "cv"
+href = "/cv"

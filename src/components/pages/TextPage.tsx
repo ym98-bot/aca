@@ -1,0 +1,92 @@
+'use client';
+
+import { motion } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
+import { DocumentArrowDownIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
+import { TextPageConfig } from '@/types/page';
+import { useMessages } from '@/lib/i18n/useMessages';
+import { BASE_PATH } from '@/lib/basePath';
+
+interface TextPageProps {
+    config: TextPageConfig;
+    content: string;
+    embedded?: boolean;
+}
+
+export default function TextPage({ config, content, embedded = false }: TextPageProps) {
+    const messages = useMessages();
+
+    // 相对路径的静态链接（普通 <a> 标签）需手动拼接 basePath，外部 http 链接则原样使用
+    const pdfHref = config.pdf
+        ? (config.pdf.startsWith('http')
+            ? config.pdf
+            : `${BASE_PATH}/${config.pdf.replace(/^\/+/, '')}`)
+        : undefined;
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className={embedded ? "" : "max-w-3xl mx-auto"}
+        >
+            <h1 className={`${embedded ? "text-2xl" : "text-4xl"} font-serif font-bold text-primary mb-4`}>{config.title}</h1>
+            {config.description && (
+                <p className={`${embedded ? "text-base" : "text-lg"} text-neutral-600 dark:text-neutral-500 mb-8 max-w-2xl`}>
+                    {config.description}
+                </p>
+            )}
+
+            {pdfHref ? (
+                <div className="bg-neutral-50 dark:bg-neutral-800/60 border border-neutral-200 dark:border-neutral-700 rounded-xl p-8 flex flex-col items-center text-center gap-4">
+                    <div className="p-4 rounded-full bg-accent/10 text-accent">
+                        <DocumentTextIcon className="h-10 w-10" />
+                    </div>
+                    <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                        {messages.common.openPdfHint}
+                    </p>
+                    <a
+                        href={pdfHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-medium text-sm bg-accent hover:bg-accent-dark text-white transition-colors duration-200"
+                    >
+                        <DocumentArrowDownIcon className="h-5 w-5" />
+                        {messages.common.openPdf}
+                    </a>
+                </div>
+            ) : (
+                <div className="text-neutral-700 dark:text-neutral-600 leading-relaxed">
+                    <ReactMarkdown
+                        components={{
+                            h1: ({ children }) => <h1 className="text-3xl font-serif font-bold text-primary mt-8 mb-4">{children}</h1>,
+                            h2: ({ children }) => <h2 className="text-2xl font-serif font-bold text-primary mt-8 mb-4 border-b border-neutral-200 dark:border-neutral-800 pb-2">{children}</h2>,
+                            h3: ({ children }) => <h3 className="text-xl font-semibold text-primary mt-6 mb-3">{children}</h3>,
+                            p: ({ children }) => <p className="mb-4 last:mb-0">{children}</p>,
+                            ul: ({ children }) => <ul className="list-disc list-inside mb-4 space-y-1 ml-4">{children}</ul>,
+                            ol: ({ children }) => <ol className="list-decimal list-inside mb-4 space-y-1 ml-4">{children}</ol>,
+                            li: ({ children }) => <li className="mb-1">{children}</li>,
+                            a: ({ ...props }) => (
+                                <a
+                                    {...props}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-accent font-medium transition-all duration-200 rounded hover:bg-accent/10 hover:shadow-sm"
+                                />
+                            ),
+                            blockquote: ({ children }) => (
+                                <blockquote className="border-l-4 border-accent/50 pl-4 italic my-4 text-neutral-600 dark:text-neutral-500">
+                                    {children}
+                                </blockquote>
+                            ),
+                            strong: ({ children }) => <strong className="font-semibold text-primary">{children}</strong>,
+                            em: ({ children }) => <em className="italic text-neutral-600 dark:text-neutral-500">{children}</em>,
+                        }}
+                    >
+                        {content}
+                    </ReactMarkdown>
+                </div>
+            )}
+        </motion.div>
+    );
+}
