@@ -35,9 +35,12 @@ export default function PublicationsList({ config, publications, embedded = fals
 
     // Extract unique years and types for filters
     const years = useMemo(() => {
-        const uniqueYears = Array.from(new Set(publications.map(p => p.year)));
-        return uniqueYears.sort((a, b) => b - a);
-    }, [publications]);
+    const uniqueYears = Array.from(
+        new Set(publications.map(p => p.year).filter((year): year is number => year !== undefined))
+    );
+
+    return uniqueYears.sort((a, b) => b - a);
+}, [publications]);
 
     const types = useMemo(() => {
         const uniqueTypes = Array.from(new Set(publications.map(p => p.type)));

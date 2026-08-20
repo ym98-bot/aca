@@ -47,7 +47,7 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
     const authors = parseAuthors(tags.author || '', highlightNames);
 
     // Parse year and month
-    const year = parseInt(tags.year) || new Date().getFullYear();
+    const year = parseInt(tags.year) || undefined;
     const monthStr = tags.month?.toLowerCase() || '';
     const month = monthMapping[monthStr] || (parseInt(monthStr) || undefined);
 
@@ -107,7 +107,10 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
     return publication;
   }).sort((a: Publication, b: Publication) => {
     // Sort by year (descending), then by month if available
-    if (b.year !== a.year) return b.year - a.year;
+    const yearA = a.year ?? 0;
+    const yearB = b.year ?? 0;
+
+    if (yearB !== yearA) return yearB - yearA;
 
     // For month comparison, treat missing months as January (1) to ensure they appear last within the year
     const monthA = typeof a.month === 'string' ?
